@@ -5,6 +5,7 @@ books = ["book1"];
 
 
 
+
 @app.route('/api/books', methods=['GET'])
 def get_all_books_v2():
     return jsonify({'list of books':books})
