@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Loan Application Portal</title>
+</head>
+
+<body>
+    <h1>Loan Application Portal</h1>
+
+    <!-- Section to accept an application -->
+    <div id="acceptApplication">
+        <h2>Apply for Loan</h2>
+        <input type="text" id="name" placeholder="Enter Name">
+        <input type="text" id="zipcode" placeholder="Zip Code">
+        <button onclick="submitApplication()">Submit Application</button>
+        <p id="applicationConfirmation"></p>
+    </div>
+
+    <!-- To check the status of an application -->
+    <div id="checkStatus">
+        <h2>Check Application Status</h2>
+        <input type="number" id="appNumberCheck" placeholder="Enter Application Number">
+        <button onclick="checkStatus()">Check Status</button>
+        <p id="statusResult"></p>
+    </div>
+
+    <!-- Section to change the status of an application -->
+    <div id="changeStatus">
+        <h2>Change Application Status</h2>
+        <input type="number" id="appNumberChange" placeholder="Enter Application Number">
+        <input type="text" id="newStatus" placeholder="New Status">
+        <button onclick="changeStatus()">Update Status</button>
+        <p id="statusUpdateResult"></p>
+    </div>
+
+    <!-- Linking your JavaScript file -->
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+
+</html>
