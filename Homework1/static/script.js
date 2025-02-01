@@ -1,22 +1,22 @@
 // Function to submit a new application (name, zipcode)
 function submitApplication() {
-    const name = document.getElementById("name").value;
-    const zipcode = document.getElementById("zipcode").value;
+    document.getElementById("applicationConfirmation").innerText = "" // Clear previous message
 
-    console.log("Submitting application...");  // Add this line to check if function is called
-    //line1 added
+    const name = document.getElementById("name").value; // Get name input
+    const zipcode = document.getElementById("zipcode").value; // Get zipcode input
+
+    console.log("Submitting application...");  // Debuging log to verify function execution
 
     fetch("/api/accept_application", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({ name: name, zipcode: zipcode })
+        body: JSON.stringify({ name: name, zipcode: zipcode }) // Send data as JSON
     })
     .then(response => response.json())
     .then(data => {
-        console.log(data);  // Log the response data to check if the backend returns the expected response
-        //line2 added
+        console.log(data);  // Debugging log to check backend response
         
         if (data.application_number) {
             document.getElementById("applicationConfirmation").innerText = 
@@ -26,47 +26,50 @@ function submitApplication() {
                 "There was an error with your application. Please try again.";
         }
     })
-    .catch(error => console.log(error));
+    .catch(error => console.log(error)); // Handle potential errors
 }
 
 // Function to check the status of an application
 function checkStatus() {
-    const appNumber = document.getElementById("appNumberCheck").value;
+    document.getElementById("statusResult").innerText = "" // Clear previous status message
 
-    if (appNumber.trim() === "") {
+    const appNumber = document.getElementById("appNumberCheck").value; // Get application number input
+
+    if (appNumber.trim() === "") { // Validate input
         alert("Please enter a valid application number.");
         return;
     }
-//line5 added
     
-    fetch(`/api/check_status?app_number=${appNumber}`)
+    fetch(`/api/check_status?app_number=${appNumber}`) // Make a GET request to check status
     .then(response => response.json())
     .then(data => {
         if (data.status) {
             document.getElementById("statusResult").innerText = 
-                `Application Status: ${data.status}`;
+                `Application Status: ${data.status}`; // Display application status
         } else {
-            document.getElementById("statusResult").innerText = data.message;
+            document.getElementById("statusResult").innerText = data.message; // Show error message
         }
     })
-    .catch(error => console.log(error));
+    .catch(error => console.log(error)); // Handle erros 
 }
 
 // Function to change the status of an application
 function changeStatus() {
-    const appNumber = document.getElementById("changeAppNumber").value;
-    const newStatus = document.getElementById("newStatus").value;
+    document.getElementById("statusUpdateResult").innerText = ""; // Clear previous update message
+
+    const appNumber = document.getElementById("appNumberChange").value; // Get application number input
+    const newStatus = document.getElementById("newStatus").value; // Get new status input
 
     fetch("/api/change_status", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({ app_number: appNumber, status: newStatus })
+        body: JSON.stringify({ app_number: appNumber, status: newStatus }) // Send updated status
     })
     .then(response => response.json())
     .then(data => {
-        document.getElementById("statusChangeResult").innerText = data.message;
+        document.getElementById("statusUpdateResult").innerText = data.message; // Display update confirmation
     })
-    .catch(error => console.log(error));
+    .catch(error => console.log(error)); // Log errors if any
 }
